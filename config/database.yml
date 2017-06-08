@@ -1,0 +1,20 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: 5
+
+development:
+  <<: *default
+  database: sloboda_studio_development
+
+test:
+  <<: *default
+  database: sloboda_studio_test
+
+production:
+  <<: *default
+  database: sloboda_studio_production
+  username: sloboda_studio
+  password: <%= ENV['SLOBODA_STUDIO_DATABASE_PASSWORD'] %>
