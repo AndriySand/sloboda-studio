@@ -1,7 +1,18 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+User.create(name: 'Some one', email: 'admin@example.com', password: 'password')
+
+10.times do |i|
+  User.create(name: Faker::Name.name, email: Faker::Internet.email, password: 'password')
+end
+GENRES = %w(Fiction Comedy Drama Horror Non-fiction Realistic Romantic Satire Tragedy Tragicomedy Fantasy Mythology)
+
+GENRES.each { |genre| Genre.create(name: genre) }
+
+User.all.each do |user|
+  10.times do |i|
+    book = Book.new(title: Faker::Lorem.sentence, author_id: user.id, content: Faker::Lorem.paragraph(50), status: 'published', description: Faker::Lorem.paragraph(10) )
+    Genre.all.sample(rand(0..12)).each do |genre|
+      book.genres << genre
+    end
+    book.save
+  end
+end
