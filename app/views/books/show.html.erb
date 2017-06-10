@@ -1,0 +1,19 @@
+<dl class="dl-horizontal">
+  <dt><strong>Title:</strong></dt>
+  <dd><%= @book.title %></dd>
+  <dt><strong>Author:</strong></dt>
+  <dd><%= @book.author.name %></dd>
+  <dt><strong>Description:</strong></dt>
+  <dd><%= @book.description %></dd>
+  <dt><strong>Content:</strong></dt>
+  <dd><%= @book.content %></dd>
+  <dt><strong>Genres:</strong></dt>
+  <dd><%= @book.genre_names %></dd>
+  <dt><strong>Status:</strong></dt>
+  <dd><%= @book.status %></dd>
+</dl>
+
+<%= link_to 'Back', books_path, class: 'btn btn-default'  %>
+<%= link_to 'Edit', edit_book_path(@book), class: 'btn btn-default' %>
+<%= link_to 'Destroy', book_path(@book), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-xs btn-danger' %>
+

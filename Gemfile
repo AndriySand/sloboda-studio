@@ -11,11 +11,12 @@ gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
 gem 'devise'
 gem "twitter-bootstrap-rails"
+gem 'kaminari'
+gem 'faker'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'faker'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
