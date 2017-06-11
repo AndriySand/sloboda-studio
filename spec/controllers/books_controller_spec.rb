@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe BooksController, type: :controller do
 
   before(:each) do
-    @new_book = FactoryGirl.create(:book, created_at: DateTime.now - 1.day)
-    @old_book = FactoryGirl.create(:book, created_at: DateTime.now - 9.day)
-    @drafted_book = FactoryGirl.create(:book, status: 'draft')
     @user = FactoryGirl.create(:user)
     sign_in @user
+    @new_book = FactoryGirl.create(:book, created_at: DateTime.now - 1.day, author_id: @user.id)
+    @old_book = FactoryGirl.create(:book, created_at: DateTime.now - 9.day)
+    @drafted_book = FactoryGirl.create(:book, status: 'draft')
   end
 
   describe "GET #index" do
@@ -40,8 +40,7 @@ RSpec.describe BooksController, type: :controller do
     end
   end
 
-  let(:valid_attributes) { { title: "Some title here", content: "some text here", description: 'some description',
-                              author_id: @user.id, status: 'published' } }
+  let(:valid_attributes) { { title: "Some title here", content: "some text here", description: 'some description', status: 'published' } }
 
   describe "POST #create" do
     context "with valid params" do
@@ -95,6 +94,13 @@ RSpec.describe BooksController, type: :controller do
         expect(response).to redirect_to(@new_book)
       end
 
+      it "cannot update book of another author" do
+        put :update, id: @drafted_book.id, book: valid_attributes
+        @drafted_book.reload
+        expect(response).to redirect_to(books_path)
+        expect(@drafted_book.title).to_not eql valid_attributes[:title]
+      end
+
     end
 
     describe "with invalid params" do
@@ -117,6 +123,13 @@ RSpec.describe BooksController, type: :controller do
   end
 
   describe "DELETE destroy" do
+
+    it "cannot delete book of another author" do
+      expect {
+        delete :destroy, {id: @drafted_book.id}
+      }.to_not change(Book, :count)
+    end
+
     it "destroys the requested book" do
       expect {
         delete :destroy, {id: @new_book.id}

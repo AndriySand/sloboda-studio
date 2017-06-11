@@ -21,6 +21,8 @@
         <a class="navbar-brand" href="#">SlobodaStudio</a>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
+            <li><%= link_to('My books', books_path(my_books: true)) %></li>
+            <li><%= link_to('All books', books_path) %></li>
             <% if user_signed_in? %>
               <li>  <%= link_to('Logout', destroy_user_session_path, method: :delete) %> </li>
             <% else %>

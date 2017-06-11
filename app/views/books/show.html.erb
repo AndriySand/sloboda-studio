@@ -14,6 +14,7 @@
 </dl>
 
 <%= link_to 'Back', books_path, class: 'btn btn-default'  %>
-<%= link_to 'Edit', edit_book_path(@book), class: 'btn btn-default' %>
-<%= link_to 'Destroy', book_path(@book), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-xs btn-danger' %>
-
+<% if can? :update, @book %>
+  <%= link_to 'Edit', edit_book_path(@book), class: 'btn btn-default' %>
+  <%= link_to 'Destroy', book_path(@book), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-xs btn-danger' %>
+<% end %>

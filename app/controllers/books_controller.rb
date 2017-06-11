@@ -4,7 +4,11 @@ class BooksController < ApplicationController
 
   # GET /books
   def index
-    @books = Book.includes(:author, :genres).recent.not_drafted.page params[:page]
+    @books = if params[:my_books]
+      current_user.books.includes(:author, :genres).page params[:page]
+    else
+      Book.includes(:author, :genres).recent.not_drafted.page params[:page]
+    end
   end
 
   # GET /books/1
@@ -22,7 +26,7 @@ class BooksController < ApplicationController
 
   # POST /books
   def create
-    @book = Book.new(book_params)
+    @book = current_user.books.new(book_params)
 
     if @book.save
       redirect_to @book, notice: 'Book was successfully created.'
@@ -33,6 +37,7 @@ class BooksController < ApplicationController
 
   # PATCH/PUT /books/1
   def update
+    authorize! :update, @book
     if @book.update(book_params)
       redirect_to @book, notice: 'Book was successfully updated.'
     else
@@ -42,6 +47,7 @@ class BooksController < ApplicationController
 
   # DELETE /books/1
   def destroy
+    authorize! :destroy, @book
     @book.destroy
     redirect_to books_url, notice: 'Book was successfully destroyed.'
   end
