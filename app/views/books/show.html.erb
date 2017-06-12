@@ -11,6 +11,8 @@
   <dd><%= @book.genre_names %></dd>
   <dt><strong>Status:</strong></dt>
   <dd><%= @book.status %></dd>
+  <dt><strong>Coverage:</strong></dt>
+  <dd><%= image_tag(@book.picture.url(:thumb)) %></dd>
 </dl>
 
 <%= link_to 'Back', books_path, class: 'btn btn-default'  %>

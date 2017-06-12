@@ -12,4 +12,13 @@ class Book < ActiveRecord::Base
 
   scope :recent, -> { where('created_at > ?', 1.week.ago) }
   scope :not_drafted, -> { where('status <> ?', 'draft') }
+  has_attached_file :picture, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: ":style/missing.jpg",
+    storage: :s3,
+    s3_credentials: {
+      bucket: ENV.fetch('S3_BUCKET_NAME'),
+      access_key_id: ENV.fetch('ACCESS_KEY'),
+      secret_access_key: ENV.fetch('SECRET_ACCESS_KEY'),
+      s3_region: ENV.fetch('S3_REGION'),
+    }
+  validates_attachment_content_type :picture, content_type: /\Aimage\/.*\z/
 end

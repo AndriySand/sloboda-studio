@@ -11,6 +11,7 @@
       <th>Genre</th>
       <th>Status</th>
       <th>Published at</th>
+      <th>Coverage</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -24,6 +25,7 @@
         <td><%= book.genre_names.truncate(30) %></td>
         <td><%= book.status %></td>
         <td><%= book.created_at %></td>
+        <td><%= image_tag(book.picture.url(:thumb)) %></td>
         <td>
           <% if can? :update, book %>
             <%= link_to 'Edit', edit_book_path(book), class: 'btn btn-default btn-xs' %>
