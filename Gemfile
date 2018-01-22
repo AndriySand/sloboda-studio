@@ -15,7 +15,7 @@ gem 'kaminari'
 gem 'faker'
 gem 'cancancan', '~> 1.10'
 gem 'aws-sdk'
-gem 'paperclip'
+gem 'paperclip', '~> 5.1'
 gem 'figaro'
 
 group :development, :test do
